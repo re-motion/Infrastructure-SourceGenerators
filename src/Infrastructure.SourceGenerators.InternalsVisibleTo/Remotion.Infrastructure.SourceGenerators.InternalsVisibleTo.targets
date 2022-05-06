@@ -1,0 +1,8 @@
+<Project>
+  <Target Name="PrepareInternalsVisibleToSourceGeneratorProperty"
+          BeforeTargets="GenerateMSBuildEditorConfigFileCore">
+    <PropertyGroup>
+      <InternalsVisibleToAssemblies>@(InternalsVisibleToAssembly->'%(Identity)',',')</InternalsVisibleToAssemblies>
+    </PropertyGroup> 
+  </Target>
+</Project>
