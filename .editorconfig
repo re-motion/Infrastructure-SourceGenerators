@@ -1,0 +1,4 @@
+root = true
+
+[*.cs]
+file_header_template = SPDX-FileCopyrightText: Copyright (c) rubicon IT GmbH, www.rubicon.eu\nSPDX-License-Identifier: LGPL-2.1-or-later
