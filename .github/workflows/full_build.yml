@@ -1,0 +1,46 @@
+name: Full Build
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Package
+        shell: bash
+        run: |
+          version=${GITHUB_REF#refs/*/v}
+          dotnet pack --output output --configuration Release -p:version="$version" src/Infrastructure.SourceGenerators.InternalsVisibleTo/Infrastructure.SourceGenerators.InternalsVisibleTo.csproj
+
+      - name: Setup package Github registry
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/OWNER/index.json"
+
+      - name: Push package Github registry
+        run: dotnet nuget push DemoLibrary/DemoLibrary/bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "output/*.nupkg"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
