@@ -1,2 +1,3 @@
 is_global = true
 build_property.InternalsVisibleToAssemblies = Remotion.Reflection.CodeGeneration.TypePipe,Remotion.Test
+#
