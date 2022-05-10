@@ -55,9 +55,11 @@ public class InternalsVisibleToSourceGenerator : ISourceGenerator
   private string[] GetInternalsVisibleToAssemblies (GeneratorExecutionContext context)
   {
     var globalOptions = context.AnalyzerConfigOptions.GlobalOptions;
-    return globalOptions.TryGetValue(c_internalsVisibleToAssembliesConfigKey, out var configValue)
-        ? configValue.Split(',')
-        : Array.Empty<string>();
+
+    if (globalOptions.TryGetValue(c_internalsVisibleToAssembliesConfigKey, out var configValue))
+      return configValue.Split(',');
+
+    return Array.Empty<string>();
   }
 
   private string FormatInternalsVisibleToAttribute (string assemblyName, string publicKey)
