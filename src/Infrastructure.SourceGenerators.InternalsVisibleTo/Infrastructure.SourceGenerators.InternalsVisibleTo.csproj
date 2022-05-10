@@ -11,7 +11,7 @@
         <Version>1.0.0</Version>
     </PropertyGroup>
     <PropertyGroup>
-        <Authors>rubicon IT GmbH</Authors>
+        <Authors>RUBICON IT GmbH</Authors>
         <Title>$(AssemblyName)</Title>
         <Description>Contains a roslyn source generator that generates InternalsVisibleTo attributes with a public key.</Description>
         <RepositoryUrl>https://github.com/re-motion/Infrastructure-SourceGenerators</RepositoryUrl>
